@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * 碧蓝航线官网皮肤 · 博客版全局样式
+ * 配色/卡片/分隔线令牌见 tailwind.config.ts
+ */
+
+:root {
+  --ink: #343435;
+  --divider: #c9e6ff;
+  --navy-title: #2f4d8a;
+  --navy-accent: #4a90d9;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  background: #eef5fd;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 首页整屏引擎挂载时锁定 body 滚动（引擎自己接管滚轮） */
+body.fp-lock {
+  overflow: hidden;
+}
+
+/* 整屏区块 */
+.fp-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  will-change: transform;
+  transition: transform 700ms cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.fp-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 天空背景（CSS 渐变复刻源站天空纵向渐变） */
+.sky {
+  background: linear-gradient(
+    180deg,
+    #8cb8ff 0%,
+    #b3cffe 22%,
+    #e6f1ff 45%,
+    #f4f9ff 70%,
+    #fdfeff 100%
+  );
+}
+
+/* 巨型水印字（源站 "MY COMMANDER" 同款风格，真文字版） */
+.watermark {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.05em;
+  line-height: 0.9;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* 白圆角卡片（源站新闻轮播卡同款质感） */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(47, 77, 138, 0.12);
+}
+
+/* 区块英文大标题 + 中文粗标题（源站 NEWS 最新资讯 同款排版） */
+.section-title-en {
+  color: #3f4b63;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.section-title-zh {
+  color: var(--navy-title);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+/* 文章列表虚线分隔（源站新闻列表同款） */
+.dashed-divider {
+  border-bottom: 1px dashed var(--divider);
+}
+
+::selection {
+  background: rgba(74, 144, 217, 0.35);
+}
