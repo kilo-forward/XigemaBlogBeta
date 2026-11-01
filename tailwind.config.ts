@@ -1,18 +1,22 @@
 import type { Config } from "tailwindcss";
 
-/** 碧蓝航线官网皮肤 · 设计令牌（取样自 recon/acceptance-report.md §5） */
+/**
+ * 碧蓝航线官网皮肤 · 设计令牌（取样自 recon/acceptance-report.md §5）
+ * 颜色统一引用 globals.css 的 CSS 变量，夜间模式只需切换变量值。
+ */
 const config: Config = {
+  darkMode: "class",
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        ink: "#343435",
-        divider: "#c9e6ff",
+        ink: "rgb(var(--ink) / <alpha-value>)",
+        divider: "rgb(var(--divider) / <alpha-value>)",
         navy: {
-          DEFAULT: "#2c4a6e",
-          deep: "#1e3a5f",
-          title: "#2f4d8a",
-          accent: "#4a90d9",
+          DEFAULT: "rgb(var(--navy) / <alpha-value>)",
+          deep: "rgb(var(--navy-deep) / <alpha-value>)",
+          title: "rgb(var(--navy-title) / <alpha-value>)",
+          accent: "rgb(var(--navy-accent) / <alpha-value>)",
         },
       },
       fontFamily: {

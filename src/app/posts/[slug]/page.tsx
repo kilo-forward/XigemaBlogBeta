@@ -2,6 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import SkyBackdrop from "@/components/SkyBackdrop";
+import MarkdownContent from "@/components/MarkdownContent";
+import ReadingProgress from "@/components/ReadingProgress";
+import BackToTop from "@/components/BackToTop";
+import Footer from "@/components/Footer";
 import { POSTS, getPost } from "@/data/posts";
 
 export function generateStaticParams() {
@@ -15,7 +19,7 @@ export function generateMetadata({
 }): Metadata {
   const post = getPost(params.slug);
   return {
-    title: post ? `${post.title} · MY BLOG` : "文章 · MY BLOG",
+    title: post?.title ?? "文章",
     description: post?.excerpt,
   };
 }
@@ -31,13 +35,19 @@ export default function PostPage({ params }: { params: { slug: string } }) {
   return (
     <main className="relative min-h-screen">
       <SkyBackdrop watermark={post.tag.toUpperCase()} showSeagull={false} variant="page" />
-      <article className="relative z-10 mx-auto max-w-3xl px-6 pb-24 pt-28">
+      <ReadingProgress />
+      <article className="relative z-10 mx-auto max-w-3xl px-6 pb-10 pt-28">
         <header className="mb-10 text-center">
-          <div className="flex items-center justify-center gap-3 text-sm text-ink/50">
-            <span className="rounded-full bg-navy-accent/10 px-3 py-1 font-medium text-navy-accent">
+          <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-ink/50">
+            <Link
+              href={`/tags/${encodeURIComponent(post.tag)}`}
+              className="whitespace-nowrap rounded-full bg-navy-accent/10 px-3 py-1 font-medium text-navy-accent transition hover:bg-navy-accent/20"
+            >
               {post.tag}
-            </span>
+            </Link>
             <time dateTime={post.date}>{post.date.replaceAll("-", "/")}</time>
+            <span aria-hidden>·</span>
+            <span>预计阅读 {post.readingMinutes} 分钟</span>
           </div>
           <h1 className="section-title-zh mt-5 text-3xl md:text-4xl">
             {post.title}
@@ -45,37 +55,31 @@ export default function PostPage({ params }: { params: { slug: string } }) {
         </header>
 
         <div className="card p-8 md:p-12">
-          {post.content.map((block, i) => {
-            if (block.type === "h2") {
-              return (
-                <h2
-                  key={i}
-                  className="mt-10 flex items-center gap-3 text-xl font-bold text-navy-title first:mt-0"
-                >
-                  <span className="inline-block h-5 w-1.5 rounded-full bg-navy-accent" />
-                  {block.text}
-                </h2>
-              );
-            }
-            if (block.type === "quote") {
-              return (
-                <blockquote
-                  key={i}
-                  className="my-8 rounded-r-lg border-l-4 border-navy-accent/60 bg-navy-accent/5 px-6 py-4 text-sm leading-7 text-navy-deep"
-                >
-                  {block.text}
-                </blockquote>
-              );
-            }
-            return (
-              <p key={i} className="mt-5 text-[15px] leading-8 text-ink/85">
-                {block.text}
+          {/* 目录（两个以上小节时展示） */}
+          {post.headings.length >= 2 && (
+            <nav aria-label="文章目录" className="dashed-divider mb-8 rounded-xl bg-navy-accent/5 p-5">
+              <p className="text-xs font-semibold tracking-[0.3em] text-navy-accent">
+                CONTENTS · 目录
               </p>
-            );
-          })}
+              <ol className="mt-3 space-y-2 text-sm leading-6">
+                {post.headings.map((h) => (
+                  <li key={h.id}>
+                    <a
+                      href={`#${h.id}`}
+                      className="text-ink/70 transition-colors hover:text-navy-accent"
+                    >
+                      {h.text}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
+
+          <MarkdownContent md={post.contentMd} />
         </div>
 
-        <nav className="mt-10 flex items-center justify-between text-sm">
+        <nav className="mt-10 flex items-center justify-between gap-4 text-sm">
           {prev ? (
             <Link
               href={`/posts/${prev.slug}`}
@@ -89,7 +93,7 @@ export default function PostPage({ params }: { params: { slug: string } }) {
           {next ? (
             <Link
               href={`/posts/${next.slug}`}
-              className="card px-4 py-3 text-navy-title transition hover:-translate-y-0.5"
+              className="card max-w-[45%] truncate px-4 py-3 text-navy-title transition hover:-translate-y-0.5"
             >
               {next.title} →
             </Link>
@@ -103,7 +107,10 @@ export default function PostPage({ params }: { params: { slug: string } }) {
             ← 返回文章列表
           </Link>
         </p>
+
+        <Footer />
       </article>
+      <BackToTop />
     </main>
   );
 }

@@ -38,6 +38,8 @@ export function FullPage({ children }: { children: ReactNode[] }) {
           "",
           hash ? hash : location.pathname + location.search
         );
+        // replaceState 不触发 hashchange；派发合成事件让导航栏同步激活态
+        window.dispatchEvent(new Event("hashchange"));
       } catch {
         /* noop */
       }
@@ -65,6 +67,16 @@ export function FullPage({ children }: { children: ReactNode[] }) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // hash 变化驱动整屏切换（其他页面点「关于」等锚点链接时生效）
+  useEffect(() => {
+    const onHash = () => {
+      const m = location.hash.match(/^#p-(\d+)$/);
+      if (m) moveTo(parseInt(m[1], 10));
+    };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, [moveTo]);
 
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {

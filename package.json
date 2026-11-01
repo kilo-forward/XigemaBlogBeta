@@ -1,8 +1,8 @@
 {
-  "name": "blog-skin",
-  "version": "0.1.0",
+  "name": "xigemablog",
+  "version": "0.2.0",
   "private": true,
-  "description": "碧蓝航线官网风格的博客皮肤（整屏首页 + 常规滚动的文章页）",
+  "description": "XigemaBlog · 碧蓝航线官网风格的个人博客（静态导出，可部署 GitHub Pages）",
   "scripts": {
     "dev": "next dev -p 3312",
     "build": "next build",
@@ -10,9 +10,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
     "next": "14.2.35",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "react-markdown": "^9.1.0",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@types/node": "20.17.24",
