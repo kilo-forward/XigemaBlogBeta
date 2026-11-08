@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function PostsPage() {
   return (
-    <main className="relative min-h-screen">
+    <main id="main" className="relative min-h-screen">
       <SkyBackdrop watermark="ARTICLES" variant="page" />
       <div className="relative z-10 mx-auto max-w-4xl px-6 pb-10 pt-28">
         <header className="mb-12 text-center">

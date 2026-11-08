@@ -45,7 +45,7 @@ export default function HomeFullPage({
   total: number;
 }) {
   return (
-    <main>
+    <main id="main">
       <FullPage>
         {/* 第 1 屏：标题 */}
         <section className="fp-section">

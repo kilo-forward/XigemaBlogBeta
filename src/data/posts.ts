@@ -3,6 +3,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import {
   calcReadingMinutes,
+  calcWordCount,
   deriveExcerpt,
   extractHeadings,
   type Post,
@@ -39,6 +40,7 @@ function loadPost(file: string): Post {
     excerpt: data.excerpt ? String(data.excerpt) : deriveExcerpt(content),
     featured: data.featured === true,
     readingMinutes: calcReadingMinutes(content),
+    wordCount: calcWordCount(content),
     headings: extractHeadings(content),
     contentMd: content.trim(),
   };

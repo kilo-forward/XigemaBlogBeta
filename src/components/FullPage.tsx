@@ -68,11 +68,12 @@ export function FullPage({ children }: { children: ReactNode[] }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // hash 变化驱动整屏切换（其他页面点「关于」等锚点链接时生效）
+  // hash 变化驱动整屏切换（其他页面点「关于」等锚点链接时生效）；
+  // hash 被清空（如点「首页」回到顶部）时回落到第 1 屏
   useEffect(() => {
     const onHash = () => {
       const m = location.hash.match(/^#p-(\d+)$/);
-      if (m) moveTo(parseInt(m[1], 10));
+      moveTo(m ? parseInt(m[1], 10) : 0);
     };
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);

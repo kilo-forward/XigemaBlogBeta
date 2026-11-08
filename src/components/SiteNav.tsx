@@ -49,12 +49,28 @@ function NavItem({
         ? "bg-navy-accent/10 font-semibold text-navy-accent"
         : "text-ink/80 hover:bg-navy-accent/5 hover:text-navy-accent";
   const cls = `${className} ${tone}`;
-  return item.href.includes("#") ? (
-    <a href={withBase(item.href)} className={cls} onClick={onNavigate}>
-      {item.label}
-    </a>
-  ) : (
-    <Link href={item.href} className={cls} onClick={onNavigate}>
+  if (item.href.includes("#")) {
+    return (
+      <a href={withBase(item.href)} className={cls} onClick={onNavigate}>
+        {item.label}
+      </a>
+    );
+  }
+  return (
+    <Link
+      href={item.href}
+      className={cls}
+      onClick={(e) => {
+        // 首页：整屏站点上停留的 hash（#p-1/#p-2）会让 Next 软导航"原地不动"，
+        // 这里主动清掉 hash 并派发事件，让整屏引擎回落到第 1 屏
+        if (item.href === "/" && window.location.hash) {
+          e.preventDefault();
+          history.pushState(null, "", location.pathname + location.search);
+          window.dispatchEvent(new Event("hashchange"));
+        }
+        onNavigate?.();
+      }}
+    >
       {item.label}
     </Link>
   );

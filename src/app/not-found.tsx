@@ -4,7 +4,7 @@ import SkyBackdrop from "@/components/SkyBackdrop";
 /** 404 页：output: export 会生成 404.html，GitHub Pages 自动使用 */
 export default function NotFound() {
   return (
-    <main className="relative min-h-screen">
+    <main id="main" className="relative min-h-screen">
       <SkyBackdrop watermark="404" showSeagull={false} variant="page" />
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center">
         <p className="text-sm tracking-[0.5em] text-navy-deep/70">

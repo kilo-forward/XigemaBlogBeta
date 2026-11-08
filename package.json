@@ -1,6 +1,6 @@
 {
   "name": "xigemablog",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "XigemaBlog · 碧蓝航线官网风格的个人博客（静态导出，可部署 GitHub Pages）",
   "scripts": {

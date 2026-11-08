@@ -41,7 +41,7 @@ export default function TagPage({ params }: { params: { tag: string } }) {
   if (posts.length === 0) notFound();
 
   return (
-    <main className="relative min-h-screen">
+    <main id="main" className="relative min-h-screen">
       <SkyBackdrop watermark={tag.toUpperCase()} showSeagull={false} variant="page" />
       <div className="relative z-10 mx-auto max-w-4xl px-6 pb-10 pt-28">
         <header className="mb-12 text-center">

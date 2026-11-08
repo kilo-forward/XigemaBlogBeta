@@ -19,6 +19,8 @@ export interface Post {
   /** 上首页精选屏 */
   featured: boolean;
   readingMinutes: number;
+  /** 正文字数（中文字 + 英文单词） */
+  wordCount: number;
   /** 正文 h2 提取出的目录 */
   headings: PostHeading[];
   /** Markdown 正文（frontmatter 之后的部分） */
@@ -94,15 +96,25 @@ export function extractHeadings(md: string): PostHeading[] {
   return headings;
 }
 
-/** 预计阅读时长：中文按字、英文按词，约 400/分钟 */
-export function calcReadingMinutes(md: string): number {
-  const plain = md
+/** 去掉 Markdown 语法后的近似纯文本（字数/时长共用） */
+function plainText(md: string): string {
+  return md
     .replace(/```[\s\S]*?```/g, " ")
     .replace(/~~~[\s\S]*?~~~/g, " ")
     .replace(/[#>*`~\-|[\]()!]/g, " ");
+}
+
+/** 正文字数：中文字 + 英文单词 */
+export function calcWordCount(md: string): number {
+  const plain = plainText(md);
   const cjk = (plain.match(/[\u4e00-\u9fa5]/g) ?? []).length;
   const words = (plain.match(/[a-zA-Z]+/g) ?? []).length;
-  return Math.max(1, Math.round((cjk + words) / 400));
+  return cjk + words;
+}
+
+/** 预计阅读时长：约 400 字/分钟 */
+export function calcReadingMinutes(md: string): number {
+  return Math.max(1, Math.round(calcWordCount(md) / 400));
 }
 
 /** frontmatter 没写 excerpt 时，取第一个段落自动生成摘要 */

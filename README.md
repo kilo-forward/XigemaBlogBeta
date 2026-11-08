@@ -7,12 +7,13 @@
 
 - 🖥 整屏首页（标题 / 精选文章 / 关于我），滚轮·触摸·键盘统一接管，hash 双向同步
 - 📝 文章列表：关键词搜索 + 标签筛选（客户端过滤，纯静态可用）
-- 🏷 标签云 + 标签页（`/tags`、`/tags/<tag>`，SSG）
-- 🗂 按年份归档（`/archive`）
-- 📑 文章详情：目录（TOC）、预计阅读时长、上一篇/下一篇、阅读进度条、代码块与列表内容块
+- 🏷 标签卡片网格（计数条 + 最近文章预览）+ 标签筛选页（`/tags`、`/tags/<tag>`，SSG）
+- 🗂 归档页：统计卡片（文章/标签/总字数/最近更新）+ 按年份时间线
+- 📑 文章详情：桌面端粘性目录（滚动高亮）、字数与预计阅读时长、相关阅读、
+  上一篇/下一篇卡片、阅读进度条、代码块与 GFM 表格
 - 🌙 夜间模式（跟随系统 + 手动切换 + localStorage 记忆，无首帧闪烁）
-- 📱 响应式：移动端汉堡菜单、窄屏适配
-- 🔍 SEO：每页独立 metadata、OpenGraph、`sitemap.xml`、`robots.txt`
+- 📱 响应式：移动端汉堡菜单、窄屏适配；键盘可达（跳转链接 + 语义锚点）
+- 🔍 SEO：每页独立 metadata、OpenGraph、WebSite/BlogPosting 结构化数据、`sitemap.xml`、`robots.txt`
 - 📡 RSS 订阅（`/rss.xml`）、自定义 404 页、站点图标
 - ⬆️ 返回顶部、页脚导航
 
@@ -111,8 +112,9 @@ src/data/posts.ts            # 构建时读取 content/posts/（frontmatter 解�
 src/data/post-types.ts       # 类型与纯工具（目录提取、阅读时长、标签汇总）
 src/app/page.tsx             # 首页（服务端取数据）+ HomeFullPage 整屏 × 3
 src/app/posts/page.tsx       # 文章列表（搜索 + 标签筛选）
-src/app/posts/[slug]/page.tsx# 文章详情（Markdown 渲染 / TOC / 上一篇下一篇）
+src/app/posts/[slug]/page.tsx# 文章详情（Markdown 渲染 / 桌面端侧边目录 / 相关阅读 / JSON-LD）
 src/components/MarkdownContent.tsx # Markdown → 皮肤样式映射（react-markdown + GFM）
+src/components/TocSidebar.tsx      # 桌面端粘性目录（滚动高亮当前小节）
 src/app/archive/page.tsx     # 按年份归档
 src/app/tags/                # 标签云 + 标签筛选页（SSG）
 src/app/rss.xml/route.ts     # RSS 2.0（构建时静态生成）
